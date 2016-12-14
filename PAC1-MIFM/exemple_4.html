@@ -1,0 +1,101 @@
+<html>
+<head>
+<title>Exercici_4 Three.js app</title>
+<style>canvas { width: 100%; height: 100% }</style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r72/three.js"></script>
+</head>
+<body>
+<script src="js/three.min.js"></script>
+<script>
+   // Initialize the scene
+//-----------
+//-----------
+//   CANVI	- PRACTICAMENT ES UN ARXIU DESDE 0 SEGUINT AMBOS TUTORIALS PER TAL DE CREAR CUBS 3D AMB ROTACIO
+//-----------
+//-----------
+   	////////////
+	// SCENE  //
+	////////////
+		var scene = new THREE.Scene();
+	////////////
+	// CAMERA //
+	////////////
+		var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 10000);
+		var renderer = new THREE.WebGLRenderer();
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		document.body.appendChild(renderer.domElement);
+		  
+		// Global mesh object of the pyramid
+		var pyramidMesh;
+		
+	////////////
+	// CUBO 1 //
+	////////////
+		var geometry = new THREE.BoxGeometry(50, 50, 50, 10, 10, 10);
+		var material = new THREE.MeshBasicMaterial({color: 0xfffff, wireframe: true});
+		var cube = new THREE.Mesh(geometry, material);
+		scene.add(cube);
+		camera.position.z = 1000; 
+
+	////////////
+	// CUBO 2 //
+	////////////		
+		var geometry2 = new THREE.BoxGeometry(50, 50, 50, 10, 10, 10);
+		var material2 = new THREE.MeshBasicMaterial({color: 0x00ff00, wireframe: true});
+		var cube2 = new THREE.Mesh(geometry2, material2);
+		cube2.position.set(-200, 0.0, 100.0);
+		scene.add(cube2);
+
+	////////////////////
+	// CUBO 3 - Rota //
+	///////////////////
+		var litCube = new THREE.Mesh(
+			new THREE.CubeGeometry(50, 50, 50),
+			new THREE.MeshLambertMaterial({color: 0x00ff00}));
+		  litCube.position.y = -100;
+		  scene.add(litCube);
+		  
+		  var light = new THREE.SpotLight();
+		  light.position.set( 500, 400, 200 );
+		  scene.add(light);
+      
+		  
+   function animate(t) {
+        // spin the camera in a circle
+        camera.position.x = Math.sin(t/1000)*300;
+        camera.position.y = 150;
+        camera.position.z = Math.cos(t/1000)*300;
+        // you need to update lookAt every frame
+        camera.lookAt(scene.position);
+        // renderer automatically clears unless autoClear = false
+        renderer.render(scene, camera);
+        window.requestAnimationFrame(animate, renderer.domElement);
+		
+		  litCube.position.x = Math.cos(t/600)*85;
+		  litCube.position.y = 60-Math.sin(t/900)*25;
+		  litCube.position.z = Math.sin(t/600)*85;
+		  litCube.rotation.x = t/500;
+		  litCube.rotation.y = t/800;
+      };
+      animate(new Date().getTime());
+	  
+function render() {
+	requestAnimationFrame(render);
+	cube.rotation.x += 0.01;
+	cube.rotation.y += 0.01;
+	//cube2.position.x = Math.cos(t/600)*85;
+	cube2.rotation.x += 0.01;
+	//cube2.position.y = 60-Math.sin(t/900)*25;
+	//cube2.position.z = Math.sin(t/600)*85;
+	//cube2.rotation.x = t/500;
+	//cube2.rotation.y = t/800;
+	
+	renderer.render(scene, camera);
+
+};
+
+render();
+
+</script>
+</body>
+</html>
